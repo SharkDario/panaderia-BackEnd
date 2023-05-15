@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-
+#hola
 class Persona(ABC):
 
     def inicializarPerso(self, dni, nombre, cuil, domi):
@@ -68,7 +68,7 @@ class Administrador(Usuario):
 
     # def ConsultarEstadosDeIngresos GenerarReciboDeSueldo ConsultarPresupuesto
 
-
+from baseDeDatos import abrir
 class Personal(Usuario):
     def inicializarPersonal(self, user, contra, tipo, dni, nombre, cuil, domi, salario, puesto, idPerso):
         super().inicializarUser(user, contra, tipo, dni, nombre, cuil, domi)
@@ -76,6 +76,14 @@ class Personal(Usuario):
         self.puesto = puesto
         self.idPerso = idPerso
 
+    def alta(self, datos):
+        cone = abrir()
+        cursor = cone.cursor()
+        sql = "insert into usuario(idUsuario, DNI, CUIL/CUIT, nombre, domicilio, user, clave, idTipoUsuario) values (%s,%s,%s,%s,%s,%s,%s,%s)"
+        cursor.execute(sql, datos)
+        cone.commit()
+        cone.close()
+        
     def modificarPersonal(self, valor, elec):
         if (elec == "S"):
             self.salario = valor
