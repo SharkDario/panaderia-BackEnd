@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+#from baseDeDatos import abrir
 import mysql.connector
 
 class Persona(ABC):
