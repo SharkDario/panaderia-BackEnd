@@ -1,5 +1,5 @@
 import mysql.connector
-class baseDeDatos:
+class baseDeDatos():
     @staticmethod
     def abrir():
       conexion = mysql.connector.connect(host="localhost",
