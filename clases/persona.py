@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+import mysql.connector
 
 class Persona(ABC):
 
