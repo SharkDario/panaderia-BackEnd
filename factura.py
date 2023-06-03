@@ -4,7 +4,7 @@ from datetime import datetime
 import mysql.connector
 
 class Factura():
-    def _init_(self, numeroFactura, fechaEmisionFactura, idTipoFactura, precioTotal, idMedioPago, idCliente, idUsuario, new=None):
+    def __init__(self, numeroFactura, fechaEmisionFactura, idTipoFactura, precioTotal, idMedioPago, idCliente, idUsuario, new=None):
         # alta de la factura
         if new is None:
             cone = bd.abrir()
@@ -40,6 +40,24 @@ class Factura():
         idCliente = tupla[6]
         idUsuario = tupla[7]
         return cls(idFactura, numeroFactura, fechaEmisionFactura, idTipoFactura, precioTotal, idMedioPago, idCliente, idUsuario, True)
+
+    def detalleFactura(self, cantidad, precioUnitario, idFactura, idProducto):
+        cone = bd.abrir()
+        datos = (cantidad, precioUnitario, idFactura, idProducto)
+        nombreA = "cantidad, precioUnitario, idFactura, idProducto"
+        bd.alta(cone, datos, "detallefactura", nombreA, 4)
+
+fecha = datetime.strptime("2023-05-02", '%Y-%m-%d') 
+factura = Factura(12345, fecha, 1, 1200, 1, 2, 4)
+detallefactura = factura.detalleFactura(10, 200, 9, 1)  # Llamar al método detalleRemito
+
+cone = bd.abrir()
+
+if cone:
+    print("La inserción se realizó correctamente.")
+else:
+    print("La inserción falló.")
+'''
 #numeroFactura, fechaEmisionFactura, idTipoFactura, precioTotal, idMedioPago, idCliente, idUsuario, new=None
 fecha = datetime.strptime("2023-05-02", '%Y-%m-%d') 
 factura = Factura(12345, fecha, 1, 1200, 1, 2, 4)
@@ -59,6 +77,8 @@ idFactura = Factura.obtenerId(tuplaFactura)
 
 
 print(f"ID de la factura: {idFactura}")
+'''
+
 
 
 # hacer remito
