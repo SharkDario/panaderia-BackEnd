@@ -42,14 +42,35 @@ class Remito():
         datos = (cantidad, fechaEntregaProducto, idRemito, idMateriaPrima, idTipoEstadoMateriaPrima)
         nombreA = "cantidad, fechaEntregaProducto, idRemito, idMateriaPrima, idTipoEstadoMateriaPrima"
         bd.alta(cone, datos, "detalleremitoproveedor", nombreA, 5)
+        # ...
 
-fecha = datetime.strptime("2023-05-02", '%Y-%m-%d')
-remito = Remito(1, fecha, 1)  # Crear instancia de Remito
-detalleremito = remito.detalleRemito(10, fecha, 1, 1, 1)  # Llamar al método detalleRemito
+        # Actualizar el stock de materia prima
+        stockActual = bd.consulta(cone, (idMateriaPrima, ), ("idMateriaPrima", ), "materiasprimas", "stockMateriaPrima")
+        stockActual = stockActual[0][0]  # Obtener el stock actual
 
+        nuevoStock = stockActual + cantidad
+
+        stockDatos = (nuevoStock, idMateriaPrima)
+        stockAtributos = "stockMateriaPrima = %s"
+        bd.actualizar(cone, stockDatos, stockAtributos, "materiasprimas", "idMateriaPrima")
+        
+# Consultar el stock de materia prima después de la actualización
 cone = bd.abrir()
+stockDespues = bd.consulta(cone, (1,), ("idMateriaPrima",), "materiasprimas", "stockMateriaPrima")
+stockDespues = stockDespues[0][0]  # Obtener el nuevo stock actualizado
+stockActual = bd.consulta(cone, (idMateriaPrima, ), ("idMateriaPrima", ), "materiasprimas", "stockMateriaPrima")
+     
 
-if cone:
-    print("La inserción se realizó correctamente.")
-else:
-    print("La inserción falló.")
+# Imprimir el stock antes y después de la actualización
+print("Stock antes de la actualización:", stockActual)
+print("Stock después de la actualización:", stockDespues)
+
+bd.cerrar(cone)
+
+# ...
+
+
+#if cone:
+    #print("La inserción se realizó correctamente.")
+#else:
+    #print("La inserción falló.")
