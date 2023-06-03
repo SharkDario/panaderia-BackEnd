@@ -36,22 +36,20 @@ class Remito():
         fechaEmisionRemito = tupla[2]
         idProveedor = tupla[3]
         return cls(idRemito, numeroRemito, fechaEmisionRemito, idProveedor, True)
-fecha = datetime.strptime("2023-05-02", '%Y-%m-%d') 
-remito = Remito(2345, fecha, 1)
+    
+    def detalleRemito(self, cantidad, fechaEntregaProducto, idRemito, idMateriaPrima, idTipoEstadoMateriaPrima):
+        cone = bd.abrir()
+        datos = (cantidad, fechaEntregaProducto, idRemito, idMateriaPrima, idTipoEstadoMateriaPrima)
+        nombreA = "cantidad, fechaEntregaProducto, idRemito, idMateriaPrima, idTipoEstadoMateriaPrima"
+        bd.alta(cone, datos, "detalleremitoproveedor", nombreA, 5)
+
+fecha = datetime.strptime("2023-05-02", '%Y-%m-%d')
+remito = Remito(1, fecha, 1)  # Crear instancia de Remito
+detalleremito = remito.detalleRemito(10, fecha, 1, 1, 1)  # Llamar al método detalleRemito
+
 cone = bd.abrir()
-ad = bd.consulta(cone, (2345, ), ("numeroRemito", ), "remitoproveedor", "*")
-if ad:
-    ad = ad[0]
-    print(ad)
+
+if cone:
+    print("La inserción se realizó correctamente.")
 else:
-    print("El remito no existe")
-
-
-tuplaRemito= 2345
-tuplaRemito = (tuplaRemito, )
-idRemito = Remito.obtenerId(tuplaRemito)
-
-print(f"ID del remito: {idRemito}")
-
-
-# hacer remito
+    print("La inserción falló.")
