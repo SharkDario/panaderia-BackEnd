@@ -17,7 +17,6 @@ else:
 
 #from curses.ascii import isdigit
 
-
 class funciones():
     @staticmethod
     def nSToCad(n):
@@ -42,6 +41,28 @@ class funciones():
         else:
             lista.append(mensaje)
             return lista
+    @staticmethod
+    def ingNombreMatPro(nombre, idMateria, cad):
+        #obtiene el ID de la materia prima/producto, si es -1 quiere decir que no existe y el nombre es válido
+        if(idMateria==-1):
+            return nombre
+        else:
+            return [f"El nombre {cad} ya existe en la base de datos."]
+    @staticmethod
+    def ingNumPosi(num, cad):
+        #para validar únicamente números positivos mayores a 0
+        bande=True
+        try:
+            num = float(num)
+            if(num<=0):
+                bande=False
+        except Exception:
+            bande=False
+        if(bande):
+            return num
+        else:
+            return [f"{cad} debe ser mayor a 0."]
+
     @staticmethod
     def ingNum(num, cadena, n=-1):
         aux=""
@@ -139,3 +160,4 @@ class funciones():
     def recuperarIden():
         iden="478190"
         return iden
+

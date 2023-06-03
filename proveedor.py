@@ -23,10 +23,25 @@ class Proveedor(Persona):
         # cadena = str(consultaId)
         # numId = ''.join([c for c in cadena if c.isdigit()])
         # numId = int(numId)
-        numId, = consultaId[0]
-        numId = int(numId)
+        try:
+            numId, = consultaId[0]
+            numId = int(numId)
+        except IndexError:
+            numId = -1
         return numId
         # return self.idProveedor
+
+    @staticmethod
+    def recuperarNombres():
+        cone = bd.abrir()
+        consulta = bd.recuperarTodos(cone, "proveedores", "nombreProveedor")
+        return consulta
+
+    @staticmethod
+    def recuperarDNIs():
+        cone = bd.abrir()
+        consulta = bd.recuperarTodos(cone, "proveedores", "DNI")
+        return consulta
 
     @classmethod
     def obtenerProveedor(cls, DNI):

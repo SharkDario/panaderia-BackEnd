@@ -1,5 +1,6 @@
 import mysql.connector
 # clase estatica
+#CORRECTO
 from funciones import funciones as f  # nSToCad
 
 
@@ -41,13 +42,16 @@ class baseDeDatos():
         return consulta
 
     @staticmethod
-    def recuperarTodos(cone, tabla, nombreA):
+    def recuperarTodos(cone, tabla, nombreA, cad=None):
         cursor = cone.cursor()
-        sql = f"select {nombreA} from {tabla}"
+        if(cad==None):
+            cad=""
+        sql = f"select {nombreA} from {tabla}{cad}"
         cursor.execute(sql)
         consulta = cursor.fetchall()
         cone.close()
         return consulta
+    #select nombreMateriaPrima from materiasprimas where stockMinimoMateriaPrima<stockMateriaPrima
 
     @staticmethod
     def recuperarTodosEspecifico(cone, tabla, nombreA, atribN, atriV):
