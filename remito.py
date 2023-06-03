@@ -21,8 +21,11 @@ class Remito():
         # cadena = str(consultaId)
         # numId = ''.join([c for c in cadena if c.isdigit()])
         # numId = int(numId)
-        numId = consultaId[0][0] # Obtener el primer elemento del resultado
-        numId = int(numId)  
+        try:
+            numId, = consultaId[0] # Obtener el primer elemento del resultado
+            numId = int(numId)
+        except IndexError:
+            numId = -1
         return numId
         # return self.idRemito
 
@@ -43,29 +46,31 @@ class Remito():
         nombreA = "cantidad, fechaEntregaProducto, idRemito, idMateriaPrima, idTipoEstadoMateriaPrima"
         bd.alta(cone, datos, "detalleremitoproveedor", nombreA, 5)
         # ...
-
+        cone2 = bd.abrir()
         # Actualizar el stock de materia prima
-        stockActual = bd.consulta(cone, (idMateriaPrima, ), ("idMateriaPrima", ), "materiasprimas", "stockMateriaPrima")
+        stockActual = bd.consulta(cone2, (idMateriaPrima, ), ("idMateriaPrima", ), "materiasprimas", "stockMateriaPrima")
         stockActual = stockActual[0][0]  # Obtener el stock actual
 
         nuevoStock = stockActual + cantidad
 
         stockDatos = (nuevoStock, idMateriaPrima)
-        stockAtributos = "stockMateriaPrima = %s"
-        bd.actualizar(cone, stockDatos, stockAtributos, "materiasprimas", "idMateriaPrima")
+        cone3 = bd.abrir()
+        bd.modificarAtrib(cone3, stockDatos, "materiasprimas", "stockMateriaPrima", "idMateriaPrima")
+        #UPDATE {tabla} SET {nombreA} = %s WHERE {nombreId} = %s;
+        #bd.actualizar(cone, stockDatos, stockAtributos, "materiasprimas", "idMateriaPrima")
         
 # Consultar el stock de materia prima después de la actualización
-cone = bd.abrir()
-stockDespues = bd.consulta(cone, (1,), ("idMateriaPrima",), "materiasprimas", "stockMateriaPrima")
-stockDespues = stockDespues[0][0]  # Obtener el nuevo stock actualizado
-stockActual = bd.consulta(cone, (idMateriaPrima, ), ("idMateriaPrima", ), "materiasprimas", "stockMateriaPrima")
+#cone = bd.abrir()
+#stockDespues = bd.consulta(cone, (1,), ("idMateriaPrima",), "materiasprimas", "stockMateriaPrima")
+#stockDespues = stockDespues[0][0]  # Obtener el nuevo stock actualizado
+#stockActual = bd.consulta(cone, (idMateriaPrima, ), ("idMateriaPrima", ), "materiasprimas", "stockMateriaPrima")
      
 
 # Imprimir el stock antes y después de la actualización
-print("Stock antes de la actualización:", stockActual)
-print("Stock después de la actualización:", stockDespues)
+#print("Stock antes de la actualización:", stockActual)
+#print("Stock después de la actualización:", stockDespues)
 
-bd.cerrar(cone)
+#bd.cerrar(cone)
 
 # ...
 
