@@ -2,6 +2,7 @@
 from baseDeDatos import baseDeDatos as bd
 from datetime import datetime
 import mysql.connector
+from materiaprima import MateriaPrima
 
 class Remito():
     def __init__(self, numeroRemito, fechaEmisionRemito, idProveedor, new=None):
@@ -46,18 +47,18 @@ class Remito():
         nombreA = "cantidad, fechaEntregaProducto, idRemito, idMateriaPrima, idTipoEstadoMateriaPrima"
         bd.alta(cone, datos, "detalleremitoproveedor", nombreA, 5)
         # ...
-        cone2 = bd.abrir()
+        #cone2 = bd.abrir()
         # Actualizar el stock de materia prima
-        stockActual = bd.consulta(cone2, (idMateriaPrima, ), ("idMateriaPrima", ), "materiasprimas", "stockMateriaPrima")
+        stockActual = MateriaPrima.obtenerAtrib((idMateriaPrima, ), ("idMateriaPrima", ), "materiasprimas", "stockMateriaPrima")
+        #stockActual = bd.consulta(cone2, (idMateriaPrima, ), ("idMateriaPrima", ), "materiasprimas", "stockMateriaPrima")
         stockActual = stockActual[0][0]  # Obtener el stock actual
 
         nuevoStock = stockActual + cantidad
 
-        stockDatos = (nuevoStock, idMateriaPrima)
-        cone3 = bd.abrir()
-        bd.modificarAtrib(cone3, stockDatos, "materiasprimas", "stockMateriaPrima", "idMateriaPrima")
-        #UPDATE {tabla} SET {nombreA} = %s WHERE {nombreId} = %s;
-        #bd.actualizar(cone, stockDatos, stockAtributos, "materiasprimas", "idMateriaPrima")
+        MateriaPrima.modificarArti("materiasprimas", "idMateriaPrima", nuevoStock, idMateriaPrima, "stockMateriaPrima")
+        #cone3 = bd.abrir()
+        #bd.modificarAtrib(cone3, stockDatos, "materiasprimas", "stockMateriaPrima", "idMateriaPrima")
+       
         
 # Consultar el stock de materia prima después de la actualización
 #cone = bd.abrir()

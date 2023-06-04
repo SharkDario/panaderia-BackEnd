@@ -14,13 +14,24 @@ class Articulo(ABC):
         self.stock = stock
         self.stockM = stockMinimo
 
-    def modificarArti(self, nombreT, idP, valorA, valorId, elec):
+    @staticmethod
+    def modificarArti(nombreT, idP, valorA, valorId, elec):
         datos = (valorA, valorId)
         # nombreT puede ser "productos", "materiasprimas"
         # idP puede ser "idProducto", "idMateriaPrima"
         # elec puede ser "nombre", "descripcion", "precioUnitario", "stock", "fechaVencimiento", "stockMinimo"
         cone = bd.abrir()
         bd.modificarAtrib(cone, datos, nombreT, elec, idP)
+
+    @staticmethod
+    def obtenerAtrib(idPMP, cadenaT, tabla, atrib):
+        #idPMP es el valor del id
+        #cadenaT puede ser (idProducto, ) o (idMateriaPrima)
+        #tabla puede ser productos o materiasprimas
+        #atrib puede ser stockProducto o stockMateriaPrima o cualquier atributo
+        cone = bd.abrir()
+        consulta = bd.consulta(cone, idPMP, cadenaT, tabla, atrib)
+        return consulta
 
     @staticmethod
     def obtenerArti(nombreT, elec, nombre, cad):

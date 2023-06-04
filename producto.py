@@ -30,6 +30,14 @@ class Producto(Articulo):
         else:
             return True
 
+    def recuperarMateriasPrimas(self, idPro):
+        cone = bd.abrir()
+        # atributoS el atributo en especifico o atributos que se quieren conseguir en formato cadena
+        # Por ejemplo: idUsuario  ;  idUsuario, CUIL_CUIT
+        # dDatos = tupla con los datos necesarios - en el caso de usuario es solo DNI
+        consulta = bd.consulta(cone, (idPro, ), ("idProducto", ), "fabricacion", "idMateriaPrima, CantidadMateriaPrima")
+        return consulta
+
     @staticmethod
     def obtenerId(nombre):
         # exId (tupla) en este caso seria el valor del nombre de la materia prima
@@ -50,6 +58,18 @@ class Producto(Articulo):
     def recuperarNombres():
         cone = bd.abrir()
         consulta = bd.recuperarTodos(cone, "productos", "nombreProducto")
+        return consulta
+
+    @staticmethod 
+    def recuperarNombresDesPUStock():
+        cone = bd.abrir()
+        consulta = bd.recuperarTodos(cone, "productos", "nombreProducto, descripcionProducto, precioUnitarioProducto, stockProducto")
+        return consulta
+
+    @staticmethod 
+    def recuperarNombresStockMinimo():
+        cone = bd.abrir()
+        consulta = bd.recuperarTodos(cone, "productos", "nombreProducto, descripcionProducto, stockMinimoProducto, stockProducto", " where stockMinimoProducto>=stockProducto")
         return consulta
 
     @classmethod

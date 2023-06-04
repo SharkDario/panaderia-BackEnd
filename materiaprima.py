@@ -40,6 +40,12 @@ class MateriaPrima(Articulo):
         return consulta
 
     @staticmethod 
+    def recuperarNombresDesPUStock():
+        cone = bd.abrir()
+        consulta = bd.recuperarTodos(cone, "materiasprimas", "nombreMateriaPrima, descripcionMateriaPrima, precioUnitarioMateriaPrima, stockMateriaPrima")
+        return consulta
+
+    @staticmethod 
     def recuperarNombresStockMinimo():
         cone = bd.abrir()
         consulta = bd.recuperarTodos(cone, "materiasprimas", "nombreMateriaPrima, descripcionMateriaPrima, stockMinimoMateriaPrima, stockMateriaPrima", " where stockMinimoMateriaPrima>=stockMateriaPrima")
