@@ -7,6 +7,7 @@ from funciones import funciones as f  # nSToCad
 class baseDeDatos():
     @staticmethod
     def abrir():
+        # se realiza la conexión a la base de datos
         conexion = mysql.connector.connect(host="localhost",
                                            user="root",
                                            passwd="",

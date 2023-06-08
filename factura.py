@@ -5,6 +5,13 @@ import mysql.connector
 
 class Factura():
     def __init__(self, numeroFactura, fechaEmisionFactura, idTipoFactura, precioTotal, idMedioPago, idCliente, idUsuario, new=None):
+        self.numeroFactura = numeroFactura
+        self.fechaEmisionFactura = fechaEmisionFactura
+        self.idTipoFactura = idTipoFactura
+        self.precioTotal = precioTotal
+        self.idMedioPago = idMedioPago
+        self.idCliente = idCliente
+        self.idUsuario = idUsuario
         # alta de la factura
         if new is None:
             cone = bd.abrir()
@@ -15,16 +22,42 @@ class Factura():
 
     @staticmethod
     def obtenerId(exId):
-        # exId (tupla) en este caso seria el valor del DNI
+        # exId (tupla) en este caso seria el valor del numero de factura y el idTipoFactura
         cone = bd.abrir()
         consultaId = bd.consulta(cone, exId, ("numeroFactura", "idTipoFactura"), "factura", "idFactura")
         # cadena = str(consultaId)
         # numId = ''.join([c for c in cadena if c.isdigit()])
         # numId = int(numId)
-        numId = consultaId[0][0]
-        numId = int(numId)  # Extraer el primer elemento de la primera tupla en el resultado
+        try:
+            numId, = consultaId[0] #tupla
+            numId = int(numId) 
+        except IndexError:
+            numId = -1
         return numId
         # return self.idFactura
+
+    @staticmethod
+    def recuperarNumeros(idTipo):
+        cone = bd.abrir()
+        #print(idTipo)
+        consulta = bd.recuperarTodosEspecifico(cone, "factura", "numeroFactura", "idTipoFactura", (idTipo, ))
+        #print(consulta)
+        return consulta
+
+    @staticmethod
+    def recuperarFechaEspecifica(fechaIni, fechaFin):
+        cone = bd.abrir()
+        cursor = cone.cursor()
+        datos = (fechaIni, fechaFin)
+        sql = f"select * from factura where fechaEmisionFactura>=%s and fechaEmisionFactura<=%s"
+        cursor.execute(sql, datos)
+        consulta = cursor.fetchall()
+        cone.close()
+        return consulta
+
+    def actualizarTotal(self, precioT, idF):
+        cone = bd.abrir()
+        bd.modificarAtrib(cone, (precioT, idF), "factura", "precioTotal", "idFactura")
 
     @classmethod
     def obtenerFactura(cls, numeroFactura, idTipoFactura):
@@ -39,7 +72,7 @@ class Factura():
         idMedioPago = tupla [5]
         idCliente = tupla[6]
         idUsuario = tupla[7]
-        return cls(idFactura, numeroFactura, fechaEmisionFactura, idTipoFactura, precioTotal, idMedioPago, idCliente, idUsuario, True)
+        return cls(numeroFactura, fechaEmisionFactura, idTipoFactura, precioTotal, idMedioPago, idCliente, idUsuario, True)
 
     def detalleFactura(self, cantidad, precioUnitario, idFactura, idProducto):
         cone = bd.abrir()
@@ -47,6 +80,13 @@ class Factura():
         nombreA = "cantidad, precioUnitario, idFactura, idProducto"
         bd.alta(cone, datos, "detallefactura", nombreA, 4)
 
+    @staticmethod
+    def obtenerDetalle(idF):
+        cone = bd.abrir()
+        consultaD = bd.consulta(cone, (idF, ), ("idFactura", ), "detallefactura", "*")
+        return consultaD
+
+"""
 fecha = datetime.strptime("2023-05-02", '%Y-%m-%d') 
 factura = Factura(12345, fecha, 1, 1200, 1, 2, 4)
 detallefactura = factura.detalleFactura(10, 200, 9, 1)  # Llamar al método detalleRemito
@@ -77,7 +117,7 @@ idFactura = Factura.obtenerId(tuplaFactura)
 
 
 print(f"ID de la factura: {idFactura}")
-'''
+"""
 
 
 

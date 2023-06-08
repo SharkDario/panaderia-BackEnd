@@ -18,6 +18,11 @@ class MateriaPrima(Articulo):
             bd.alta(cone, datos, "materiasprimas", nombreAtrib, nAtrib)
 
     @staticmethod
+    def bajaMateriaP(idMP):
+        cone = bd.abrir()
+        bd.baja(cone, (idMP, ), ("idMateriaPrima", ), "materiasprimas")
+
+    @staticmethod
     def obtenerId(nombre):
         # exId (tupla) en este caso seria el valor del nombre de la materia prima
         cone = bd.abrir()
@@ -59,12 +64,11 @@ class MateriaPrima(Articulo):
         descripcion = tupla[2]
         precioU = tupla[3]
         stock = tupla[4]
-        fechaV = tupla[5]
-        stockM = tupla[6]
+        stockM = tupla[5]
         if(tuplaV==True):
             return tupla
         else:
-            return cls(nombre, descripcion, precioU, stock, fechaV, stockM, True)
+            return cls(nombre, descripcion, precioU, stock, stockM, True)
 
 #print(MateriaPrima.obtenerId(("Huevo", )))
 #fechaV = datetime.strptime('5/25/25', '%m/%d/%y')

@@ -17,6 +17,11 @@ class Producto(Articulo):
             nombreAtrib = "nombreProducto, descripcionProducto, precioUnitarioProducto, stockProducto, stockMinimoProducto"
             bd.alta(cone, datos, "productos", nombreAtrib, nAtrib)
 
+    @staticmethod
+    def bajaProducto(idProd):
+        cone = bd.abrir()
+        bd.baja(cone, (idProd, ), ("idProducto", ), "productos")
+
     def fabricacion(self, idMateria, Cant):
         cone0 = bd.abrir()
         idProducto = Producto.obtenerId((self.nombre, ))
@@ -71,7 +76,7 @@ class Producto(Articulo):
         cone = bd.abrir()
         consulta = bd.recuperarTodos(cone, "productos", "nombreProducto, descripcionProducto, stockMinimoProducto, stockProducto", " where stockMinimoProducto>=stockProducto")
         return consulta
-
+   
     @classmethod
     def obtenerPro(cls, nombre, tuplaV=None):
         cone = bd.abrir()

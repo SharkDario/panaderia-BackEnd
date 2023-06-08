@@ -29,6 +29,16 @@ class Persona(ABC):
         return bd.consulta(cone, dni, ("DNI", ), nombreT, elec)
 
     @staticmethod
+    def obtenerAtrib(nombreT, elec, idP, nombreId):
+        # elec puede ser "DNI", "nombre", "CUIL_CUIT", "domicilio", o "telefono"
+        # idP debe ser tupla con el valor del idP (44, )
+        # nombreId debe ser tupla ("idAdministrador", )
+        cone = bd.abrir()
+        atributo = bd.consulta(cone, idP, nombreId, nombreT, elec)
+        atributo = atributo[0][0]
+        return atributo
+
+    @staticmethod
     @abstractmethod
     def obtenerId(exId):
         pass

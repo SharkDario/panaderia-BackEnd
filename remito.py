@@ -16,7 +16,7 @@ class Remito():
 
     @staticmethod
     def obtenerId(exId):
-        # exId (tupla) en este caso seria el valor del DNI
+        # exId (tupla) en este caso seria el valor del numero
         cone = bd.abrir()
         consultaId = bd.consulta(cone, exId, ("numeroRemito", ), "remitoproveedor", "idRemito")
         # cadena = str(consultaId)

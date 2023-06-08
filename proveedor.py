@@ -16,6 +16,11 @@ class Proveedor(Persona):
             bd.alta(cone, datos, "proveedores", nombreAtrib, nAtrib)
 
     @staticmethod
+    def bajaProveedor(idProv):
+        cone = bd.abrir()
+        bd.baja(cone, (idProv, ), ("idProveedor", ), "proveedores")
+
+    @staticmethod
     def obtenerId(exId):
         # exId (tupla) en este caso seria el valor del DNI
         cone = bd.abrir()
@@ -52,9 +57,9 @@ class Proveedor(Persona):
         nombreProveedor = tupla[1]
         CUIL_CUIT = tupla[2]
         DNI = tupla[3]
-        domicilioProveedor = tupla[4]
-        telefonoProveedor = tupla [5]
-        return cls(idProveedor, nombreProveedor, CUIL_CUIT, DNI, domicilioProveedor, telefonoProveedor, True)
+        domicilioProveedor = tupla[5]
+        telefonoProveedor = tupla [4]
+        return cls(nombreProveedor, CUIL_CUIT, DNI, domicilioProveedor, telefonoProveedor, True)
 
 # proveedor = Proveedor("Brenda", "27458963125", 45896312, "republica", "3704546716")
 # cone = bd.abrir()
