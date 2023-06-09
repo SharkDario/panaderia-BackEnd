@@ -1,44 +1,26 @@
-"""
-from pantallaInicio import *
 
-pLogin()
-opcionIngresada = int(input("Seleccione una opción: "))
-
-if (opcionIngresada == 1):
-    usuario = input("Ingrese su usuario: ")
-    clave = input("Ingrese su contraseña: ")
-    if ((usuario == "BRENDA") & (clave == "1234")):
-        pMenuAdministrador()
-    else:
-        pMenuPersonal("comprador")
-else:
-    print("AHORA REGISTRARSE!!!!!!!")
-"""
-
-#from curses.ascii import isdigit
-
-class funciones(): #es una clase estática pq todas sus funciones lo son
+class funciones(): #es una clase estática porque todas sus funciones lo son
     @staticmethod # convierte a una función en estática 
     def nSToCad(n): # se le pasa la cantidad de "%s" que necesitamos
-        cadS = ""  # cadena %s
-        for i in range(n): # recorre la 
-            if (i != n-1):
-                cadS = cadS + "%s,"
+        cadS = ""  # acumulador de la cadena
+        for i in range(n): # recorre la cantidad de veces "n"
+            if (i != n-1): # si todavia no es el final
+                cadS = cadS + "%s," # annade %s,
             else:
-                cadS = cadS + "%s"
-        return cadS
-    @staticmethod
-    def ingDNI_CUIL(cuil, n, nombre='CUIL/CUIT'):
-        mensaje = ""
+                cadS = cadS + "%s" # annade %s
+        return cadS #retorna la cadena con las %s - "%s, %s, %s"
+    @staticmethod # convierte a una función en estática 
+    def ingDNI_CUIL(cuil, n, nombre='CUIL/CUIT'): # verifica tanto si el cuil como el dni es valido
+        mensaje = "" # se le pasa n por la cantidad de valores que tienen cuil-11 dni-8 
         lista=[]
-        if((len(cuil)!=n)|(cuil.isdigit()==False)):
-            if(len(cuil)!=n):
+        if((len(cuil)!=n)|(cuil.isdigit()==False)): # se verifica tanto la longitud como si es entero
+            if(len(cuil)!=n): # si es distinto de 11 u 8, entonces dice que debe tener 11 u 8 caracteres
                 mensaje += f"El {nombre} debe contener {n} caracteres."
-            if(cuil.isdigit()==False):
+            if(cuil.isdigit()==False): # si no es un num entero, entonces comenta el mensaje de abajo
                 mensaje += f"\nEl {nombre} debe contener sólo números, sin espacios ni puntos."
-        if(mensaje==""):
-            return cuil
-        else:
+        if(mensaje==""): # si el mensaje quedo vacio quiere decir que es un cuil o dni valido
+            return cuil # entonces lo retorna
+        else: # sino, entonces annade el mensaje a la lista y la retorna
             lista.append(mensaje)
             return lista
     @staticmethod
