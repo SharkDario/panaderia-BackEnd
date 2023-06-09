@@ -17,11 +17,11 @@ else:
 
 #from curses.ascii import isdigit
 
-class funciones():
-    @staticmethod
-    def nSToCad(n):
+class funciones(): #es una clase estática pq todas sus funciones lo son
+    @staticmethod # convierte a una función en estática 
+    def nSToCad(n): # se le pasa la cantidad de "%s" que necesitamos
         cadS = ""  # cadena %s
-        for i in range(n):
+        for i in range(n): # recorre la 
             if (i != n-1):
                 cadS = cadS + "%s,"
             else:
