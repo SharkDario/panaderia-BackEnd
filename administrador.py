@@ -32,24 +32,13 @@ class Administrador(Usuario):
 
     def contratacion(self, fechaInicio, idAdmin, idEmpleado):
         #INSERT INTO contratacion (idContratacion, fechaInicioContratacion, fechaFinContratacion, idUsuarioAdmin, idUsuarioEmpleado)
-        #VALUES (?, ?, ?, (SELECT idUsuario FROM usuarios WHERE idTipoUsuario = 1 LIMIT 1), (SELECT idUsuario FROM usuarios WHERE idTipoUsuario = 2 LIMIT 1));
+        #VALUES (?, ?, ?, (SELECT idUsuario FROM usuarios WHERE idTipoUsuario = 1 LIMIT 1), (SELECT idUsuario FROM usuarios WHERE idTipoUsuarioÂ =Â 2Â LIMITÂ 1));
         #tuplaT = ("usuarios", "contratacion")
         #tuplaId = ("idUsuario", "fechaInicioContratacion")
         cone = bd.abrir()
         datos = (fechaInicio, idAdmin, idEmpleado)
         nombreA = "fechaInicioContratacion, idUsuarioAdmin, idUsuarioEmpleado"
         bd.alta(cone, datos, "contratacion", nombreA, 3)
-        #cone2 = bd.abrir()
-        #bd.joinContratacion(cone2)
-
-        """
-        INSERT INTO contratacion (fechaInicioContratacion, idUsuarioAdmin, idUsuarioEmpleado)
-        VALUES (?, ?, ?)
-        SELECT contratacion.fechaInicioContratacion, usuariosAdmin.idUsuario, usuariosEmpleado.idUsuario
-        FROM contratacion
-        JOIN usuarios AS usuariosAdmin ON contratacion.idUsuarioAdmin = usuariosAdmin.idUsuario
-        JOIN usuarios AS usuariosEmpleado ON contratacion.idUsuarioEmpleado = usuariosEmpleado.idUsuario;
-        """
 
     @classmethod
     def obtenerAdmi(cls, DNI, tuplaV=None):
@@ -69,23 +58,9 @@ class Administrador(Usuario):
         else:
             return cls(DNI, CUIL_CUIT, nombre, domicilio, telefono, user, clave, True)
 
-
+# una prueba de que funciona la clase para dar de alta en la base de datos
 #admi = Administrador(41111111, 20411111119, "Miguel Dario Coronel", "Calle anchoa", "3704259037", "Dario07", "morimayi")
 # cone = bd.abrir()
 # ad = bd.consulta(cone, (41111111, ), ("DNI", ), "usuarios", "*")
 # print(ad)
 # ad = ad[0]
-
-
-# tuplaDNI = 41111111
-# tuplaDNI = (tuplaDNI, )
-# idUser = Administrador.obtenerId(tuplaDNI)
-
-# print(type(int(str(idUser[0]))))"(1,)"
-# print(f"ID del usuario: {idUser}")
-# ad = Administrador.obtenerAdmi(ad)
-# ad.modificarUser("morimayi", idUser, "clave")
-# contratar
-# crear producto
-# crear materia prima
-# def ConsultarEstadosDeIngresos GenerarReciboDeSueldo ConsultarPresupuesto
